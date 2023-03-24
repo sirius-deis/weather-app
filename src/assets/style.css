@@ -1,0 +1,167 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: rgb(80, 76, 76);
+}
+
+:root {
+  font-size: 62.5%;
+  font-family: "Delicious Handrawn", cursive;
+}
+
+.container {
+  max-width: 40%;
+  margin: 10% auto;
+  box-shadow: 2px 4px 6px rgba(8, 8, 8, 0.3);
+  background-image: radial-gradient(#0742b6, #2d82e9, #61a3f5);
+  border-radius: 10px;
+  padding: 4rem;
+}
+
+.top {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.top__gps,
+.top__map {
+  max-width: 3rem;
+}
+
+.top__gps:hover,
+.top__map:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.top__city {
+  width: 15rem;
+  padding: 1rem;
+  font-size: 2rem;
+  border: 0;
+  text-align: center;
+  color: rgb(12, 12, 12);
+  background-color: transparent;
+}
+
+.top__city::placeholder {
+  color: rgb(12, 12, 12);
+}
+
+.top__city:focus {
+  outline: none;
+  box-shadow: 2px 2px 5px rgba(245, 245, 245, 0.5);
+}
+
+.fill {
+  text-align: right;
+  font-size: 2rem;
+}
+
+.middle {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.left .data {
+  text-align: center;
+}
+
+.left .data .date {
+  font-size: 2rem;
+}
+
+.left .data .day {
+  font-size: 3rem;
+}
+
+.actual img {
+  max-width: 5rem;
+}
+
+.actual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 6rem;
+}
+
+.right div img {
+  max-width: 3rem;
+}
+
+.center {
+  display: flex;
+  width: 40%;
+  align-items: flex-end;
+  justify-content: center;
+  background-image: url(icons/bg/clear\ sky.png);
+  background-position: center;
+  background-size: cover;
+  font-size: 2rem;
+}
+
+.right div {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 1rem;
+}
+
+.right div img:hover {
+  filter: grayscale(100%);
+}
+
+.right div span {
+  font-size: 2rem;
+}
+
+.bottom {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
+}
+
+.bottom__cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #3271ee;
+  box-shadow: 1px 2px 4px rgba(1, 1, 1, 0.5);
+  padding: 1rem;
+}
+
+.bottom__cell:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+  background-color: #2c64d3;
+}
+
+.bottom__cell img {
+  max-width: 100%;
+}
+
+.bottom__day {
+  text-transform: uppercase;
+  font-size: 1.8rem;
+}
+
+.bottom__temperature {
+  font-size: 3rem;
+}
