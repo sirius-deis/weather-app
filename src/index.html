@@ -21,13 +21,18 @@
           src="assets/icons/placeholder.png"
           alt="gps icon"
         />
-        <input
-          type="text"
-          class="top__city"
-          required
-          autocomplete="true"
-          placeholder="City name"
-        />
+        <label class="top__search">
+          <input
+            type="text"
+            class="top__city"
+            required
+            autocomplete="true"
+            placeholder="City name"
+          />
+          <button class="top__btn" type="button">
+            <img src="assets/icons/search.png" alt="search" />
+          </button>
+        </label>
         <img
           class="top__map"
           src="assets/icons/location-marker.png"
@@ -76,43 +81,7 @@
           </div>
         </div>
       </div>
-      <div class="bottom">
-        <div class="bottom__cell">
-          <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="" />
-          <p class="bottom__day">sun</p>
-          <p class="bottom__temperature"><span>+25</span>&#176;</p>
-        </div>
-        <div class="bottom__cell">
-          <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="" />
-          <p class="bottom__day">mon</p>
-          <p class="bottom__temperature"><span>+19</span>&#176;</p>
-        </div>
-        <div class="bottom__cell">
-          <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="" />
-          <p class="bottom__day">tue</p>
-          <p class="bottom__temperature"><span>+19</span>&#176;</p>
-        </div>
-        <div class="bottom__cell">
-          <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="" />
-          <p class="bottom__day">wed</p>
-          <p class="bottom__temperature"><span>+15</span>&#176;</p>
-        </div>
-        <div class="bottom__cell">
-          <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="" />
-          <p class="bottom__day">thu</p>
-          <p class="bottom__temperature"><span>+10</span>&#176;</p>
-        </div>
-        <div class="bottom__cell">
-          <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="" />
-          <p class="bottom__day">fri</p>
-          <p class="bottom__temperature"><span>+8</span>&#176;</p>
-        </div>
-        <div class="bottom__cell">
-          <img src="https://openweathermap.org/img/wn/10d@2x.png" alt="" />
-          <p class="bottom__day">sut</p>
-          <p class="bottom__temperature"><span>+20</span>&#176;</p>
-        </div>
-      </div>
     </main>
+    <script src="index.js"></script>
   </body>
 </html>
