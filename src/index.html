@@ -15,6 +15,11 @@
   </head>
   <body>
     <main class="container">
+      <img
+        class="day-night-change"
+        src="assets/icons/sun.png"
+        alt="day/light change"
+      />
       <div class="top">
         <img
           class="top__gps"
@@ -53,7 +58,7 @@
             <div class="fill">Fill like <span>+23</span>&#176;</div>
           </div>
         </div>
-        <div class="center">cloudy</div>
+        <div class="center"><div class="center__desc">cloudy</div></div>
         <div class="right">
           <div class="sunrise">
             <img src="assets/icons/sunrise.png" alt="sunrise" />
@@ -81,7 +86,19 @@
           </div>
         </div>
       </div>
-      <div class="bottom"></div>
+      <div class="bottom">
+        <template class="cell-template">
+          <div class="bottom__cell">
+            <img src="" alt="" />
+            <p class="bottom__day"></p>
+            <p class="bottom__temperature-in-day"></p>
+            <p class="bottom__temperature-in-night"></p>
+          </div>
+        </template>
+      </div>
+      <div class="backdrop hiden">
+        <div class="loader"></div>
+      </div>
     </main>
     <script src="index.js"></script>
   </body>
