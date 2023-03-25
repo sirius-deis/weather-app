@@ -15,13 +15,25 @@ document.addEventListener("DOMContentLoaded", () => {
     pressureElement = document.querySelector(".pressure span"),
     bottomElement = document.querySelector(".bottom"),
     dayNightChanger = document.querySelector(".day-night-change"),
-    cellTemplate = document.querySelector(".cell-template");
+    cellTemplate = document.querySelector(".cell-template"),
+    backdropElement = document.querySelector(".backdrop");
 
   let data;
   let list;
   let mode = "day";
 
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
   async function getWeather(cords) {
+    showBackdrop();
     try {
       const response = await fetch(
         `http://localhost:8081/api/v1/weather?${cords}`
@@ -32,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       console.error(err);
     }
+    hideBackdrop();
   }
 
   function updateListContent() {
@@ -67,15 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
       "October",
       "November",
       "December",
-    ];
-    const days = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
     ];
     if (data === undefined) return;
     const dateTime = new Date(list[0].dt * 1000);
@@ -117,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function formCards() {
+    bottomElement.innerHTML = "";
     const elements = list.map((el) => {
       const clone = cellTemplate.content.cloneNode(true);
       const img = clone.querySelector("img");
@@ -124,10 +129,16 @@ document.addEventListener("DOMContentLoaded", () => {
         "n",
         "d"
       )}@2x.png`;
+
       img.alt = el.weather[0].description;
+      const date = new Date(el.dt * 1000);
+      clone.querySelector(".bottom__day").textContent = `${
+        days[date.getDay()]
+      }`;
+      clone.querySelector(".bottom__temperature").textContent =
+        el.main.temp.toFixed(1);
       return clone;
     });
-    console.log(elements);
     bottomElement.append(...elements);
   }
 
@@ -152,5 +163,14 @@ document.addEventListener("DOMContentLoaded", () => {
     this.src = `assets/icons/${mode === "day" ? "sun" : "half-moon"}.png`;
     updateListContent();
     updateInfoOnMode();
+    formCards();
   });
+
+  function showBackdrop() {
+    backdropElement.classList.remove("hidden");
+  }
+
+  function hideBackdrop() {
+    backdropElement.classList.add("hidden");
+  }
 });

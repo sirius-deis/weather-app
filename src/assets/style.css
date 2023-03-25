@@ -105,6 +105,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-width: 30%;
 }
 
 .left .data {
@@ -203,8 +204,7 @@ body {
   font-size: 1.8rem;
 }
 
-.bottom__temperature-in-day,
-.bottom__temperature-in-night {
+.bottom__temperature {
   font-size: 3rem;
 }
 
@@ -231,7 +231,7 @@ body {
   animation: spin 2s linear infinite;
 }
 
-.hiden {
+.hidden {
   display: none;
 }
 
