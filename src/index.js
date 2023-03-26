@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cityInputElement = document.querySelector(".top__city"),
     geoElement = document.querySelector(".top__gps"),
     btnInputElement = document.querySelector(".top__btn"),
+    btnMap = document.querySelector(".top__map"),
     dateElement = document.querySelector(".date"),
     dayElement = document.querySelector(".day"),
     actualTElement = document.querySelector(".actual b span"),
@@ -17,12 +18,14 @@ document.addEventListener("DOMContentLoaded", () => {
     bottomElement = document.querySelector(".bottom"),
     dayNightChanger = document.querySelector(".day-night-change"),
     cellTemplate = document.querySelector(".cell-template"),
-    backdropElement = document.querySelector(".backdrop");
+    backdropLoaderElement = document.querySelector(".backdrop-loader"),
+    backdropMapElement = document.querySelector(".backdrop-map");
 
   let data;
   let list;
   let mode = "day";
   let tooltip;
+  let map;
 
   const days = [
     "Monday",
@@ -68,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   async function getWeather(cords) {
-    showBackdrop();
+    showLoaderBackdrop();
     try {
       const response = await fetch(
         `http://localhost:8081/api/v1/weather?${cords}`
@@ -80,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       getTooltip().show(cityInputElement, "Please enter correct city name");
     }
-    hideBackdrop();
+    hideLoaderBackdrop();
   }
 
   function updateListContent() {
@@ -122,14 +125,14 @@ document.addEventListener("DOMContentLoaded", () => {
     dateElement.textContent = `${
       months[dateTime.getUTCMonth()]
     } ${dateTime.getDate()}`;
-    dayElement.textContent = `${days[dateTime.getDay() - 1]}`;
+    dayElement.textContent = `${days[dateTime.getDay()]}`;
 
     actualTElement.textContent = list[n].main.temp.toFixed(1);
     fillTElement.textContent = list[n].main.feels_like.toFixed(1);
     centerElement.firstChild.textContent = list[n].weather[0].description;
     centerElement.style.backgroundImage = `url(assets/icons/bg/${list[
       n
-    ].weather[0].icon.replace("n", "d")}.png)`;
+    ].weather[0].icon.replace("n", "d")}.webp)`;
     humidityElement.textContent = `${list[n].main.humidity}%`;
     windElement.textContent = `${list[n].wind.speed}km/h`;
     const deg = list[n].wind.deg;
@@ -160,10 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const elements = list.map((el) => {
       const clone = cellTemplate.content.cloneNode(true);
       const img = clone.querySelector("img");
-      img.src = `https://openweathermap.org/img/wn/${el.weather[0].icon.replace(
-        "n",
-        "d"
-      )}@2x.png`;
+      img.src = `https://openweathermap.org/img/wn/${el.weather[0].icon}@2x.png`;
 
       img.alt = el.weather[0].description;
       const date = new Date(el.dt * 1000);
@@ -190,11 +190,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   cityInputElement.addEventListener("focus", () => {
-    if (tooltip.isShown) tooltip.hide();
+    if (getTooltip.isShown) tooltip.hide();
   });
 
   geoElement.addEventListener("click", () => {
-    if (tooltip.isShown) tooltip.hide();
+    if (getTooltip.isShown) tooltip.hide();
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
         getWeather(`lat=${coords.latitude}&lon=${coords.longitude}`);
@@ -231,11 +231,46 @@ document.addEventListener("DOMContentLoaded", () => {
     return tooltip;
   }
 
-  function showBackdrop() {
-    backdropElement.classList.remove("hidden");
+  function showLoaderBackdrop() {
+    backdropLoaderElement.classList.remove("hidden");
   }
 
-  function hideBackdrop() {
-    backdropElement.classList.add("hidden");
+  function hideLoaderBackdrop() {
+    backdropLoaderElement.classList.add("hidden");
+  }
+
+  btnMap.addEventListener("click", () => {
+    const coordinates = { lat: 51.505, lon: -0.09 };
+    navigator.geolocation.getCurrentPosition(({ coords }) => {
+      coordinates.lat = coords.latitude;
+      coordinates.lon = coords.longitude;
+    });
+
+    showMapBackdrop();
+    if (map) return;
+
+    map = L.map("map").setView([coordinates.lat, coordinates.lon], 13);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+    map.on("click", ({ latlng }) => {
+      getWeather(`lat=${latlng.lat}&lon=${latlng.lng}`);
+      hideMapBackdrop();
+    });
+  });
+
+  backdropMapElement.addEventListener("click", (e) => {
+    if (!e.target.matches("#map")) {
+      hideMapBackdrop();
+    }
+  });
+
+  function showMapBackdrop() {
+    backdropMapElement.classList.remove("hidden");
+  }
+  function hideMapBackdrop() {
+    backdropMapElement.classList.add("hidden");
   }
 });
