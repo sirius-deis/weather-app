@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const cityInputElement = document.querySelector(".top__city"),
+  const container = document.querySelector(".container"),
+    cityInputElement = document.querySelector(".top__city"),
     geoElement = document.querySelector(".top__gps"),
     btnInputElement = document.querySelector(".top__btn"),
     dateElement = document.querySelector(".date"),
@@ -21,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let data;
   let list;
   let mode = "day";
+  let tooltip;
 
   const days = [
     "Monday",
@@ -32,17 +34,51 @@ document.addEventListener("DOMContentLoaded", () => {
     "Sunday",
   ];
 
+  function ToolTip() {
+    this.toolTip = document.createElement("div");
+    this.toolTip.classList.add("tooltip", "hidden");
+    this.text = document.createElement("p");
+    button = document.createElement("button");
+    button.className = "tooltip__close";
+    button.innerHTML = "&times;";
+    button.addEventListener("click", () => {
+      this.hide();
+    });
+    this.toolTip.append(this.text, button);
+    container.append(this.toolTip);
+  }
+
+  ToolTip.prototype.hide = function () {
+    this.isShown = false;
+    this.toolTip.classList.add("hidden");
+  };
+
+  ToolTip.prototype.show = function (element, text) {
+    const rectEl = element.getBoundingClientRect();
+    this.toolTip.classList.remove("hidden");
+    const cs = getComputedStyle(this.toolTip);
+    this.text.innerText = text;
+    this.toolTip.style.top = `${
+      element.offsetTop - parseInt(cs.height) - 20
+    }px`;
+    this.toolTip.style.left = `${
+      element.offsetLeft - parseInt(cs.width) / 2 + rectEl.width / 2
+    }px`;
+    this.isShown = true;
+  };
+
   async function getWeather(cords) {
     showBackdrop();
     try {
       const response = await fetch(
         `http://localhost:8081/api/v1/weather?${cords}`
       );
+      if (!response.ok) throw new Error();
       data = await response.json();
       updateListContent();
       updateInfo();
     } catch (err) {
-      console.error(err);
+      getTooltip().show(cityInputElement, "Please enter correct city name");
     }
     hideBackdrop();
   }
@@ -82,22 +118,21 @@ document.addEventListener("DOMContentLoaded", () => {
       "December",
     ];
     if (data === undefined) return;
-    const dateTime = new Date(list[0].dt * 1000);
+    const dateTime = new Date(list[n].dt * 1000);
     dateElement.textContent = `${
       months[dateTime.getUTCMonth()]
     } ${dateTime.getDate()}`;
     dayElement.textContent = `${days[dateTime.getDay() - 1]}`;
 
-    actualTElement.textContent = list[0].main.temp.toFixed(1);
-    fillTElement.textContent = list[0].main.feels_like.toFixed(1);
-    centerElement.firstChild.textContent = list[0].weather[0].description;
-    centerElement.style.backgroundImage = `url(assets/icons/bg/${list[0].weather[0].icon.replace(
-      "n",
-      "d"
-    )}.png)`;
-    humidityElement.textContent = `${list[0].main.humidity}%`;
-    windElement.textContent = `${list[0].wind.speed}km/h`;
-    const deg = list[0].wind.deg;
+    actualTElement.textContent = list[n].main.temp.toFixed(1);
+    fillTElement.textContent = list[n].main.feels_like.toFixed(1);
+    centerElement.firstChild.textContent = list[n].weather[0].description;
+    centerElement.style.backgroundImage = `url(assets/icons/bg/${list[
+      n
+    ].weather[0].icon.replace("n", "d")}.png)`;
+    humidityElement.textContent = `${list[n].main.humidity}%`;
+    windElement.textContent = `${list[n].wind.speed}km/h`;
+    const deg = list[n].wind.deg;
     let dir;
     if (deg === 0) {
       dir = "North";
@@ -117,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
       dir = "West-North";
     }
     cardinalPointsElement.textContent = dir;
-    pressureElement.textContent = `${list[0].main.pressure.toFixed(1)}mb`;
+    pressureElement.textContent = `${list[n].main.pressure.toFixed(1)}mb`;
   }
 
   function formCards() {
@@ -137,6 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }`;
       clone.querySelector(".bottom__temperature").textContent =
         el.main.temp.toFixed(1);
+      clone.firstElementChild.dataset.dt = el.dt;
       return clone;
     });
     bottomElement.append(...elements);
@@ -144,16 +180,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btnInputElement.addEventListener("click", () => {
     const cityName = cityInputElement.value;
+    if (cityName.trim().length == 0) {
+      return getTooltip().show(
+        cityInputElement,
+        "Input field couldn't be empty"
+      );
+    }
     getWeather(`q=${cityName}`);
   });
 
+  cityInputElement.addEventListener("focus", () => {
+    if (tooltip.isShown) tooltip.hide();
+  });
+
   geoElement.addEventListener("click", () => {
+    if (tooltip.isShown) tooltip.hide();
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
         getWeather(`lat=${coords.latitude}&lon=${coords.longitude}`);
       },
       (err) => {
-        console.error(err);
+        getTooltip().show(
+          geoElement,
+          "Please enable access to your geolocation"
+        );
       }
     );
   });
@@ -165,6 +215,21 @@ document.addEventListener("DOMContentLoaded", () => {
     updateInfoOnMode();
     formCards();
   });
+
+  bottomElement.addEventListener("click", (e) => {
+    if (!e.target.closest(".bottom__cell")) return;
+    if (list.length === 0) return;
+    const time = e.target.closest(".bottom__cell").dataset.dt;
+    const index = list.findIndex((el) => el.dt == time);
+    updateInfoOnMode(index);
+  });
+
+  function getTooltip() {
+    if (!tooltip) {
+      tooltip = new ToolTip();
+    }
+    return tooltip;
+  }
 
   function showBackdrop() {
     backdropElement.classList.remove("hidden");

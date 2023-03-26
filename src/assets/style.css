@@ -235,6 +235,38 @@ body {
   display: none;
 }
 
+.tooltip {
+  position: absolute;
+  padding: 10px 15px;
+  color: whitesmoke;
+  background-color: hsla(240, 8%, 3%, 1);
+  border-radius: 5px;
+  font-size: 2rem;
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -9px) rotate(45deg);
+  background-color: hsla(240, 8%, 3%, 1);
+}
+
+.tooltip__close {
+  position: absolute;
+  top: 10px;
+  transform: translate(50%, -50%);
+  right: 10px;
+  color: whitesmoke;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  font-size: 1.8rem;
+}
+
 @keyframes spin {
   0% {
     transform: translate(-50%, -50%) rotate(0deg);
