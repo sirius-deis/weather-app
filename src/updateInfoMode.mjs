@@ -89,7 +89,7 @@ function updateInfo(data, list) {
 
 function formCards(list) {
   bottomElement.innerHTML = "";
-  const elements = list.map((el) => {
+  const elements = list.map((el, i) => {
     const clone = cellTemplate.content.cloneNode(true);
     const img = clone.querySelector("img");
     img.src = `https://openweathermap.org/img/wn/${el.weather[0].icon}@2x.png`;
@@ -99,6 +99,9 @@ function formCards(list) {
     clone.querySelector(".bottom__day").textContent = `${days[date.getDay()]}`;
     clone.querySelector(".bottom__temperature").textContent =
       el.main.temp.toFixed(1);
+    if (i === 0) {
+      clone.firstElementChild.classList.add("active");
+    }
     clone.firstElementChild.dataset.dt = el.dt;
     return clone;
   });
