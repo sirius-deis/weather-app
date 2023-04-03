@@ -1,206 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Simple weather app which allow you to check weather in every place on earth"
-    />
-    <meta name="keywords" content="weather, map, geo" />
-    <title>Weather app</title>
-    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
-      crossorigin=""
-    />
-    <script
-      src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
-      crossorigin=""
-    ></script>
-    <link rel="stylesheet" href="assets/style.css" />
-  </head>
-  <body>
-    <main class="container">
-      <picture>
-        <source srcset="assets/icons/sun.webp" />
-        <img
-          width="40"
-          height="40"
-          class="day-night-change"
-          src="assets/icons/sun.png"
-          alt="day/light change"
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="Simple weather app which allow you to check weather in every place on earth"
         />
-      </picture>
-      <div class="top">
-        <picture>
-          <source srcset="assets/icons/placeholder.webp" />
-          <img
-            width="30"
-            height="30"
-            class="top__gps"
-            src="assets/icons/placeholder.png"
-            alt="gps icon"
-          />
-        </picture>
-        <label class="top__search">
-          <input
-            type="text"
-            class="top__city"
-            required
-            autocomplete="true"
-            placeholder="City name"
-          />
-          <button class="top__btn" type="button">
+        <meta name="keywords" content="weather, map, geo" />
+        <title>Weather app</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap" rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+            integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+            crossorigin=""
+        />
+        <script
+            src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+            crossorigin=""
+        ></script>
+        <link rel="stylesheet" href="assets/style.css" />
+    </head>
+    <body>
+        <main class="container">
             <picture>
-              <source srcset="assets/icons/search.webp" />
-              <img
-                width="30"
-                height="30"
-                src="assets/icons/search.png"
-                alt="search"
-              />
-            </picture>
-          </button>
-        </label>
-        <picture>
-          <source srcset="assets/icons/location-marker.webp" />
-          <img
-            width="30"
-            height="30"
-            class="top__map"
-            src="assets/icons/location-marker.png"
-            alt="map for choosing location"
-          />
-        </picture>
-      </div>
-      <div class="middle">
-        <div class="left">
-          <div class="data">
-            <p class="date"></p>
-            <p class="day"></p>
-          </div>
-          <div class="temperature">
-            <div class="actual">
-              <picture>
-                <source srcset="assets/icons/thermometer.webp" />
+                <source srcset="assets/icons/sun.webp" />
                 <img
-                  width="50"
-                  height="50"
-                  src="assets/icons/thermometer.png"
-                  alt="thermometer"
+                    width="40"
+                    height="40"
+                    class="day-night-change"
+                    src="assets/icons/sun.png"
+                    alt="day/light change"
                 />
-              </picture>
-              <b><span></span>&#176;</b>
+            </picture>
+            <div class="top">
+                <picture>
+                    <source srcset="assets/icons/placeholder.webp" />
+                    <img width="30" height="30" class="top__gps" src="assets/icons/placeholder.png" alt="gps icon" />
+                </picture>
+                <div class="top__search">
+                    <input type="text" class="top__city" required autocomplete="on" placeholder="City name" />
+                    <button class="top__btn" type="button">
+                        <picture>
+                            <source srcset="assets/icons/search.webp" />
+                            <img width="30" height="30" src="assets/icons/search.png" alt="search" />
+                        </picture>
+                    </button>
+                </div>
+                <picture>
+                    <source srcset="assets/icons/location-marker.webp" />
+                    <img
+                        width="30"
+                        height="30"
+                        class="top__map"
+                        src="assets/icons/location-marker.png"
+                        alt="map for choosing location"
+                    />
+                </picture>
             </div>
-            <div class="fill">Fill like <span></span>&#176;</div>
-          </div>
+            <div class="middle">
+                <div class="left">
+                    <div class="data">
+                        <p class="date"></p>
+                        <p class="day"></p>
+                    </div>
+                    <div class="temperature">
+                        <div class="actual">
+                            <picture>
+                                <source srcset="assets/icons/thermometer.webp" />
+                                <img width="50" height="50" src="assets/icons/thermometer.png" alt="thermometer" />
+                            </picture>
+                            <b><span></span>&#176;</b>
+                        </div>
+                        <div class="fill">Fill like <span></span>&#176;</div>
+                    </div>
+                </div>
+                <div class="center"><div class="center__desc"></div></div>
+                <div class="right">
+                    <div class="sunrise">
+                        <picture>
+                            <source srcset="assets/icons/sunrise.webp" />
+                            <img width="30" height="30" src="assets/icons/sunrise.png" alt="sunrise" />
+                        </picture>
+                        <span></span>
+                    </div>
+                    <div class="sunset">
+                        <picture>
+                            <source srcset="assets/icons/sunset.webp" />
+                            <img width="30" height="30" src="assets/icons/sunset.png" alt="sunset" />
+                        </picture>
+                        <span></span>
+                    </div>
+                    <div class="humidity">
+                        <picture>
+                            <source srcset="assets/icons/humidity.webp" />
+                            <img width="30" height="30" src="assets/icons/humidity.png" alt="humidity" />
+                        </picture>
+                        <span></span>
+                    </div>
+                    <div class="wind">
+                        <picture>
+                            <source srcset="assets/icons/wind.webp" />
+                            <img width="30" height="30" src="assets/icons/wind.png" alt="wind" />
+                        </picture>
+                        <span></span>
+                    </div>
+                    <div class="cardinal-points">
+                        <picture>
+                            <source srcset="assets/icons/cardinal-points.webp" />
+                            <img width="30" height="30" src="assets/icons/cardinal-points.png" alt="cardinal-points" />
+                        </picture>
+                        <span></span>
+                    </div>
+                    <div class="pressure">
+                        <picture>
+                            <source srcset="assets/icons/pressure.webp" />
+                            <img width="30" height="30" src="assets/icons/pressure.png" alt="pressure" />
+                        </picture>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom">
+                <template class="cell-template">
+                    <div class="bottom__cell">
+                        <picture>
+                            <source srcset="" />
+                            <img src="" alt="" />
+                        </picture>
+                        <p class="bottom__day"></p>
+                        <p class="bottom__temperature"></p>
+                    </div>
+                </template>
+            </div>
+            <div class="backdrop-loader hidden">
+                <div class="loader"></div>
+            </div>
+        </main>
+        <div class="backdrop-map hidden">
+            <div id="map"></div>
         </div>
-        <div class="center"><div class="center__desc"></div></div>
-        <div class="right">
-          <div class="sunrise">
-            <picture>
-              <source srcset="assets/icons/sunrise.webp" />
-              <img
-                width="30"
-                height="30"
-                src="assets/icons/sunrise.png"
-                alt="sunrise"
-              />
-            </picture>
-            <span></span>
-          </div>
-          <div class="sunset">
-            <picture>
-              <source srcset="assets/icons/sunset.webp" />
-              <img
-                width="30"
-                height="30"
-                src="assets/icons/sunset.png"
-                alt="sunset"
-              />
-            </picture>
-            <span></span>
-          </div>
-          <div class="humidity">
-            <picture>
-              <source srcset="assets/icons/humidity.webp" />
-              <img
-                width="30"
-                height="30"
-                src="assets/icons/humidity.png"
-                alt="humidity"
-              />
-            </picture>
-            <span></span>
-          </div>
-          <div class="wind">
-            <picture>
-              <source srcset="assets/icons/wind.webp" />
-              <img
-                width="30"
-                height="30"
-                src="assets/icons/wind.png"
-                alt="wind"
-              />
-            </picture>
-            <span></span>
-          </div>
-          <div class="cardinal-points">
-            <picture>
-              <source srcset="assets/icons/cardinal-points.webp" />
-              <img
-                width="30"
-                height="30"
-                src="assets/icons/cardinal-points.png"
-                alt="cardinal-points"
-              />
-            </picture>
-            <span></span>
-          </div>
-          <div class="pressure">
-            <picture>
-              <source srcset="assets/icons/pressure.webp" />
-              <img
-                width="30"
-                height="30"
-                src="assets/icons/pressure.png"
-                alt="pressure"
-              />
-            </picture>
-            <span></span>
-          </div>
-        </div>
-      </div>
-      <div class="bottom">
-        <template class="cell-template">
-          <div class="bottom__cell">
-            <picture>
-              <source srcset="" />
-              <img src="" alt="" />
-            </picture>
-            <p class="bottom__day"></p>
-            <p class="bottom__temperature"></p>
-          </div>
-        </template>
-      </div>
-      <div class="backdrop-loader hidden">
-        <div class="loader"></div>
-      </div>
-    </main>
-    <div class="backdrop-map hidden">
-      <div id="map"></div>
-    </div>
-    <script type="module" src="index.mjs"></script>
-  </body>
+        <script type="module" src="index.mjs"></script>
+    </body>
 </html>
